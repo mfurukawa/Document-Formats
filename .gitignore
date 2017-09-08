@@ -118,3 +118,12 @@ LaTeX/extended-abstract.pdf
 LaTeX/proceedings.pdf
 LaTeX/sigchi.bst
 Examples/LaTeX SIGCHI Proceedings Format.pdf
+*.mat
+*.m
+*.svg
+*.png
+*.fig
+*.asv
+Iconr
+CHI2018_proceedings_furukawa.pdf
+*.pdf

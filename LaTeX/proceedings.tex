@@ -76,7 +76,7 @@
 % Paper metadata (use plain text, for PDF inclusion and later
 % re-using, if desired).  Use \emtpyauthor when submitting for review
 % so you remain anonymous.
-\def\plaintitle{SIGCHI Conference Proceedings Format}
+\def\plaintitle{Prediction of Walking One Step Earlier \\ for Realtime Walking Guidance}
 \def\plainauthor{First Author, Second Author, Third Author,
   Fourth Author, Fifth Author, Sixth Author}
 \def\emptyauthor{}
@@ -160,6 +160,13 @@
   to SIGCHI conferences before, as some format details have changed
   relative to previous years. Abstracts should be about 150 words and
   are required.
+  
+%%
+ヒトの歩行運動は，突発的な感覚入力への姿勢反射応答の潜時が約２歩であることが知られている．
+そのため歩行を実時間で誘導するためには，現在の歩行運動状態から２歩先行した歩行運動を実時間で
+予測し続ける必要がある．そこで本研究では多層パーセプトロンを用いた実時間歩行運動予測を行い，
+直進・右左折を含む5種の歩行運動に対し，１歩先行した歩行予測を実現したので報告する．
+
 \end{abstract}
 
 \category{H.5.m.}{Information Interfaces and Presentation
@@ -170,6 +177,27 @@
 \keywords{\plainkeywords}
 
 \section{Introduction}
+
+%%
+
+ヒトの歩行運動は，突発的な感覚入力への姿勢反射応答の潜時が約２歩であることが知られている\cite{bib01}．
+そのため歩行を実時間で誘導するためには，現在の歩行運動状態から２歩先行した歩行運動を実時間で
+予測し続ける必要がある．そこで本研究では多層パーセプトロンを用いた実時間歩行運動予測を行い，
+直進・右左折を含む5種の歩行運動に対し，１歩先行した歩行予測を実現したので報告する．
+
+本研究の目的は，歩行の予測可能性を示すことにあるため，
+任意の歩行運動を対象とするのではなく，予め明示的に設計された経路を歩行した際の
+歩行運動を対象とする．そこで本研究の問題を
+「現在時刻の歩行運動から$\Delta t$秒先の歩行運動をどの程度予測可能か」
+と設定する．ここで本研究の主目的は経路案内を達成するための歩行誘導であるため，
+予測対象である「歩行運動」は頭部の移動軌跡が得られれば十分であると考える．
+
+本研究では連続運動としての相関が現時刻・先行時刻間で低下したとしても，
+先行時刻における運動を推定するに足る情報量が現在時刻に内包されているのならば，
+推定精度が十分高いことが期待できる先行時間幅が存在すると仮定している．
+従って予測対象は物理量を有する身体運動であるべきであって，
+右折，左折といった名義尺度ではない．これは歩行予測と誘導を実時間で
+実現するためには，物理量としての身体運動が求められるからである．
 
 This format is to be used for submissions that are published in the
 conference proceedings. We wish to give this volume a consistent,
@@ -198,6 +226,326 @@ To attempt to combat this, the \texttt{.cls} file has a command,
 prefer underfull lines with extra whitespace.  For more details on
 this, and info on how to control it more finely, check out
 {\url{http://www.economics.utoronto.ca/osborne/latex/PMAKEUP.HTM}}.
+%%
+\section{Modeling 歩行運動計測と歩行運動のモデル化}%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Measure Walking Behavior歩行運動の計測}
+\label{subsec-nac}
+
+
+
+まず取り扱う物理量の選定であるが，本稿では歩行運動を表現する物理量として速度を用いている．
+これは歩行運動は連続した周期運動であるためである．
+つまり時刻$t$において観測される身体各部位の速度は，
+周期$T$後に再び観測されるという仮説が成立しうる利点がある．
+さらにこの仮説は歩行位置によらず成立するため，速度という物理的特徴量は，
+空間内の任意の位置を移動する歩行者を対象とした実時間歩行運動予測に適した特徴を与える．
+
+そこで歩行運動を計測するためのマーカ配置として，図\ref{fig-marker}に示したHelen Hayers配置を用いた．
+nac社製Kestrel(220万画素)を8台用いて300fpsにて撮影を行なった．25点の座標$\{p_x,p_y,p_z\}$を
+計測したデータはMAC3D System Cortexを用いて，欠損データの補間処理，
+カットオフ周波数6Hzのローパスフィルタ処理，
+後退差分法による25点マーカの速度ベクトル$\{v_x,v_y,v_z\}$を求めた．
+\begin{figure}[tb]
+  \begin{center}
+  \vspace*{-6mm}
+    \includegraphics*[width=30mm]{fig/marker.eps}
+  \end{center}
+  \vspace*{-6mm}
+  \caption{マーカ配置(HelenHayers)}
+  \label{fig-marker}
+\end{figure}
+
+
+
+
+\subsection{歩行条件}
+
+定量的に予測性能を評価するために，
+経路条件として「直進，90度右折，90度左折，45度右折，45度左折」の5条件を設定した．
+歩行距離は1試行につき6[m]であり，その内訳は始点から3mの直進区間を経て
+右左折もしくは直進区間としてさらに3[m]である．
+5条件の歩行経路を明示するため床に印を貼り，
+通常の歩行速度や歩幅で男性被験者1名に歩行させた．
+
+計測データの中から学習データセットとして用いた頭部軌跡を図\ref{fig-training-data}に示す．
+同図は図\ref{fig-marker}中の黒矢印として示した頭頂部の軌跡であり，5条件を各2回分の歩行データを含む．
+経路5条件に従って，水平面内の原点付近で右左折をしている様子が確認できる．
+垂直面内の脈動は頭部の上下動を表している．
+第\ref{subsec-nac}節の通り，1試行のデータは各時刻あたり全25点分のマーカの
+速度ベクトル(3次元)の計75点が300[fps]で記録された時系列データである．
+
+\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=80mm]{fig/TRAINING-DATA.eps}
+  \end{center}
+  \vspace*{-10mm}
+  \caption{学習データ群の頭頂部マーカ軌跡(図\ref{fig-marker}黒矢印)}
+  \label{fig-training-data}
+\end{figure}
+
+
+
+
+\subsection{入出力データ群のモデル化}
+\label{projection}
+
+推定対象データ群(入力データ)・被推定対象データ群(出力データ)を用いて歩行運動をモデル化する．
+
+今時刻$t$におけるマーカ$m$の速度を$\check{v}_{m,t} $と定義し，
+全マーカの集合を$X(t) \in \mathbb{R}^{1 \times 75}$，頭頂部マーカのみの集合を$Y(t) \in \mathbb{R}^{1 \times 3}$と定義する．
+また現在時刻から予測対象の先行時刻までの幅を「先行時間幅$\Delta t$」と表す．
+ここで本研究の問題は次のように定式化される．すなわち，
+$\Delta t = 0 $[s] ならば，「現在の歩行運動から現在の頭頂部運動の予測」問題を解けば良い．
+これは写像$f_{\Delta t = 0}: X(t) \rightarrow Y(t)$を推定するモデル同定と等価である．
+同様に$\Delta t = 0.5 $[s] ならば「現在の歩行運動から0.5[s]先の頭頂部運動の予測」となる
+写像$f_{\Delta t = 0.5}: X(t) \rightarrow Y(t+\Delta t)$の同定問題に帰着される．
+
+期待される予測精度は，先行時間幅が増加するに伴い低下すると考えられる．
+これは連続周期運動である歩行の運動特徴量としての相関が，
+そこで本稿では計測したデータから求めた2歩分の時間1.1[s]を基準歩行周期とみなし，
+同条件として$\Delta t = \{0.0, \  0.5, \ 1.1\}$ [s]の3条件を設定した．
+これは歩数表現でそれぞれ${0, 1, 2}$歩先の予測に対応する．
+予測精度は$\Delta t = 0$ が最も高く，$\Delta t = 1.1$ が最も低いと推定される．
+しかし推定精度が低くとも，例えば，右左折の判断に足る運動予測の可能性を明らかにすることに本稿の主眼がある．
+
+
+\section{予測器設計と歩行運動学習}%%%%%%%%%%%%%%%%%%%%
+
+\subsection{予測器設計}
+
+
+予測器は図\ref{fig-dbn}に示すDeep belief networkを用いた．
+細胞数は入力層，隠れ層，出力層それぞれ75，100，3である．
+入力層に現在時刻$t$における25点分のマーカの速度ベクトル($X(t) \in \mathbb{R}^{1 \times 75}$)を与え，
+出力層に先行時刻幅$\Delta t$先の頭頂部マーカの速度ベクトル($Y(t + \Delta t) \in \mathbb{R}^{1 \times 3}$)を推定させる．
+活性化関数はシグモイド関数(sigm)，出力関数は恒等写像関数(linear)である．
+
+
+\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=60mm]{fig/DBN_3layers.eps}
+  \end{center}
+  \vspace*{-6mm}
+  \caption{Deep belief network}
+  \label{fig-dbn}
+\end{figure}
+
+
+
+\subsection{正規化}
+
+学習のための前処理として，入出力データの正規化を行う．
+
+まず第\ref{projection}節で定義した写像則に従い教師データ群を作成し，
+$X(t) \in \mathbb{R}^{1 \times 75}, Y(t + \Delta t) \in \mathbb{R}^{1 \times 3}$をそれぞれ得る．
+これらの集合は速度の実測値 $\check{v}_{m,t}$ を持つ．ここで$m$はマーカやデカルト座標系$\{ x, y, z\}$に区別なく付与される系列番号であり，
+$X$，$Y$に対しそれぞれ$1 \leq m_X \leq 75$，$1 \leq m_Y \leq 3$を与える．
+正規化とは，全時刻域$(1 \leq t \leq N)$で系列$m$の集合の平均を 0 標準偏差を1に変換することである．
+
+そこでまず系列$m$内平均$\overline{\check{v}_{m}} $を式(\ref{eq.average})で求める．
+ただし$C$は全条件数であり，$n_c$は各条件$c$が含む時間ステップ数である．
+
+% m : marker index number
+% Tn = all seconds
+% average 
+\begin{equation}
+\overline{\check{v}_{m}} = \frac{1}{N}\sum^{N}_{t=1}\check{v}_{m,t} 
+ \hspace{3mm} where  \hspace{3mm}
+N=\sum^{C}_{c=1} n_c 
+\label{eq.average}
+\end{equation}
+
+次に，系列$m$内標準偏差$\check{s}_m$を式(\ref{eq.standardDeviation})で求める．
+
+% standard deviation
+\begin{equation}
+  \check{s}_m = \sqrt{ \frac{1}{N-1}\sum^{N}_{t=1} ( \check{v}_{m,t} - \overline{\check{v}_m} ) ^2} 			
+\label{eq.standardDeviation}
+\end{equation}
+
+最後に，系列$m$は式(\ref{eq.regularization})により正規化された$ v_{m,t} $を得る．
+
+% regularization
+\begin{equation}
+  v_{m,t} = \frac{\check{v}_{m,t} - \overline{\check{v}_{m}}}{\check{s}_m} 
+  \label{eq.regularization}
+\end{equation}
+
+
+\begin{figure*}[tb]
+  \begin{center}
+    \includegraphics*[width=180mm]{fig/velocity.eps}
+  \end{center}
+  \vspace*{-10mm}
+  \caption{$x$軸方向の速度予測結果($\Delta t$は先行時間幅を表す)}
+  \label{fig-velocity-result}
+\end{figure*}
+
+\subsection{予測実験}
+現在時刻の速度入力マーカ25点$X(t) \in \mathbb{R}^{1 \times 75}$に対する
+頭頂部速度$Y(t + \Delta t) \in \mathbb{R}^{1 \times 3}$を前述の通り正規化し教師データとして学習させた．
+教師データ長は，先行時間幅$\Delta  t =\{0.0, \ 0.5,\  1.1\} $[s]ごとにそれぞれ12976, 11476,  9676である．
+バッチサイズは各先行時間幅ごとにそれぞれ12976, 11476, 9676とし，学習回数を 2000回とし学習させた．
+学習時の各種パラメータは脚注
+\footnote{Learning rate  4, momentum 0.5, dropoutFraction 0.5, 
+inputZeroMaskedFraction 0.2, weightMaxL2norm 15}に示す．
+以上の手続きから，各先行時間幅3条件における予測器$f_{\Delta t = \{0.0, 0.5, 1.1\}}$をそれぞれ3つ得た．
+
+評価用データ群として，教師データ群とは異なるデータ群を用いた．
+ただし評価用データ群も同一被験者から教師データ群と同一日に計測したものである．
+
+
+%
+%見出しのレベルは3段階とし，
+%第1レベル（章）は，上に1行あけて{\bf ゴシック体10 pt}により
+%「{\bf 3. 章の見出し}」のように記入してください（\verb+\section+を使用）．
+%\subsubsection{項の見出し}
+%
+%第3レベル（項）の見出しも前後に空白行を設けず，
+%{\bf ゴシック体9 pt}により「{\bf 3.2.1 項の見出し}」のように記入してください（\verb+\subsubsection+を使用）．
+
+
+%%% この\newpageは，最終ページの左右カラム高さを手動で調整する場合に挿入します．
+%%% balanceパッケージを使用すれば自動的に左右の高さを揃えられます．
+%\newpage
+
+\section{予測結果}%%%%%%%%%%%%%%%%%%%%
+
+\subsection{予測された速度の時系列評価}
+
+実験結果を図\ref{fig-velocity-result}に示す．
+同図は横軸を時間，縦軸を歩行者の初期位置における左右方向の頭頂部の速度成分とした時系列推定結果を示している．
+同図は世界座標系で表現された速度であるため，$\Delta t = 0.0$[s]の $t=7$[s]付近以降のように大きく負の値を
+とる場合は，歩行者は右折したことを表している．
+
+図\ref{fig-velocity-result}のいずれのプロットも評価用データ群に関するものであり，
+青い一点鎖線のGround Truth(期待する結果)が$Y(t+\Delta t)$，
+太い橙色のPredicted(予測された結果)が$f_{\Delta t}(X(t))$，
+細い橙色のCurrent Velocity(入力層に与えられた現時刻での速度)が$X(t)$をそれぞれ示している．
+予測器の同定に十分成功していれば予測結果$f_{\Delta t}(X(t))$ が期待する結果$Y(t + \Delta t)$に漸近する．
+
+まず図\ref{fig-velocity-result}上段の先行時刻幅$\Delta t= 0.0$[s]を観察する．
+先行時間幅の定義より$\Delta t= 0.0$から$X(t)=Y(t)$のため，プロットGround TruthはCurrent Velocityと一致している．
+予測された結果$f_{0.0}(X(t))$が$X(t)$に漸近していれば予測器の獲得が失敗していないことを示す
+コントロールデータとなりうる．図\ref{fig-velocity-result}上段から，$f_{0.0}(X(t))$(プロットPredicted)は
+概ね$Y(t)$(プロットGround Truth)と一致しており，期待する結果であるといえる．
+
+次に図\ref{fig-velocity-result}中段の先行時刻幅$\Delta t= 0.5$[s]を観察する．
+同図の$X(t)$が$Y(t+0.5)$と位相差を約$\pi$もつことから，
+1歩先の運動予測のための評価用データ群であることが確認できる．
+同様に$f_{0.5}(X(t))$と$Y(t+0.5)$を比較すると，
+図\ref{fig-velocity-result}中段に黒矢印で示した時刻付近で右左折を意味する速度変化が
+Ground Truthに沿って予測されることがわかった．
+これは図中の$f_{0.5}(X(t))$(プロットPredicted)は$X(t)$の速度と反して$Y(t+0.5)$に漸近した
+変動を示していることから，1歩先の頭頂部速度予測可能性を示すものであるといえる．
+
+最後に図\ref{fig-velocity-result}下段の先行時刻幅$\Delta t= 1.1$[s]を観察する．
+同様に$X(t)$が$Y(t+1.1)$と位相差を約$2\pi$もつことから，2歩先の評価用データ群であることが確認できる．
+さらに$f_{1.1}(X(t))$と$Y(t+1.1)$を比較すると，$f_{1.1}(X(t))$のデータが右左折を意味する速度変動を
+予測すべき時刻から大きく遅れて予測されていることがわかった．
+すなわち，2歩先の頭頂部速度予測可能性は今回用いたデータセット群では
+確認することができなかった．
+
+
+\subsection{歩行軌跡の推定と評価}
+
+時刻$t$における頭頂部速度の推定結果は前述の通り正規化されていることから，
+式(\ref{eq.average})と式(\ref{eq.standardDeviation})で求めた
+系列$m$内平均$\overline{\check{v}_{m}} $と標準偏差$\check{s}_m$を用いた逆変換を行い
+実世界座標系での速度ベクトルを導出する．そこで
+式(\ref{eq.integration})により初期座標を基準とした時間積分を行い頭頂部軌跡を求めた．
+ただし$\delta t = 1/300 $[fps] である．
+
+\begin{equation}
+\vec{p}(t) = \sum^{t}_{t=1}(\check{s}_m  v_{m,t} +  \overline{\check{v}_{m}})  \delta t+ \vec{p}_0(t_0)
+\label{eq.integration}
+\end{equation}
+
+
+図\ref{fig-0.0sec}〜図\ref{fig-1.1sec}はそれぞれ先行時間幅$\Delta  t =\{0.0, \ 0.5,\  1.1\} $[s]ごとに
+図\ref{fig-velocity-result}の予測された時系列速度(プロットPredicted)を
+式(\ref{eq.integration})を用いて頭頂部軌跡としてプロットした結果の天面図である．
+細実線が$Y(t+\Delta t)$の期待する結果であり，太実線が$f_{\Delta t}(X(t))$の予測結果を示している．
+歩行者は図の左側から右側に向かって歩行を開始し原点付近で五分岐していることから，
+各歩行軌跡5条件に従った歩行した様子が観察できる．
+
+図\ref{fig-0.0sec}〜図\ref{fig-1.1sec}から，先行時刻幅が増加するに従い，
+期待する頭部軌跡から予測された軌跡が逸脱していく様子が観察された．
+$\Delta t = 0.0$[s]条件である図\ref{fig-0.0sec}は期待する結果と予測された軌跡は一致しており，
+$\Delta t = 0.5$[s]条件である図\ref{fig-0.5sec}は最大約500[mm]程度の位置誤差が確認された．また
+$\Delta t = 1.1$[s]条件である図\ref{fig-1.1sec}は，右左折条件で特に
+概ね2歩分に相当する約1000[mm]の位置誤差が原点付近で観察された．
+これは前節で述べた通り予測された速度変動の時刻が期待する時刻で観測されなかったことに起因する．
+
+
+\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=60mm]{fig/shift_0.0sec/trail.eps}
+  \end{center}
+  \vspace*{-10mm}
+  \caption{$\Delta t$ = 0.0[s]}
+  \label{fig-0.0sec}
+%\end{figure}
+
+%\begin{figure}[b]
+  \begin{center}
+      \includegraphics*[width=60mm]{fig/shift_0.5sec/trail.eps}
+  \end{center}
+  \vspace*{-10mm}
+  \caption{$\Delta t$ = 0.5[s]}
+  \label{fig-0.5sec}
+%\end{figure}
+
+
+%\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=60mm]{fig/shift_1.1sec/trail.eps}
+  \end{center}
+  \vspace*{-10mm}
+  \caption{$\Delta t$ = 1.1[s]}
+  \label{fig-1.1sec}
+\end{figure}
+
+
+%
+%
+%
+%参考文献は出現順に番号を付け，該当個所に\cite{bib01}\cite{bib02}\cite{bib03}\cite{bib04}のようにカギカッコで指示してください．
+%参考文献の引用リストは例を参考にして，文末に1行あけ，
+%{\normalsize\bf ゴシック体10 pt}センタリングで「{\normalsize\bf 参考文献}」と記した後に，番号順に記入してください．
+%姓名の記法や誌名巻号の略記法など形式について厳密な指定はありませんが，リストの中で統一を取るようにしてください．
+%
+%\section{PDF出力}%%%%%%%%%%%%%%%%%%%%
+%原稿はPDFにて投稿してください．投稿前に，
+%\begin{itemize}
+% \item 書式の乱れがないか
+% \item 参照文献番号があっているか
+% \item 画像は印刷に耐えうるクオリティか
+% \item A4サイズになっているか
+% \item 白紙ページがないか
+% \item 規定ページ数に収まっているか
+%\end{itemize}
+%などを必ず確認してください．
+%また，出版プロセスでPDFを加工（ノンブル付与）するため，PDFのセキュリティなどは解除いただく様お願いいたします．
+
+
+
+
+%%% balance.styを使用する場合，最後の\sectionの直前に入れます．
+\balance
+
+\section{むすび}%%%%%%%%%%%%%%%%%%%%
+ヒトの歩行運動は，突発的な感覚入力への姿勢反射応答の潜時が約２歩であることが知られている．
+そのため歩行を実時間で誘導するためには，現在の歩行運動状態から２歩先行した歩行運動を実時間で
+予測し続ける必要がある．そこで本研究では多層パーセプトロンを用いた実時間歩行運動予測を行い，
+直進・右左折を含む5種の歩行運動に対し，１歩先行した歩行予測を実現した．
+
+今後の課題として現在は被験者数が1名に限られており教師データ数が少ない．
+また本報告は訂正的な評価が主体となっており，定量的な評価が求められる．
+さらに入出力層設計の妥当性に対する評価を行う必要がある．
+
+%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Title and Authors}
 
