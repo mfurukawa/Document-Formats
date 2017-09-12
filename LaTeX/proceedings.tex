@@ -76,6 +76,7 @@
 % Paper metadata (use plain text, for PDF inclusion and later
 % re-using, if desired).  Use \emtpyauthor when submitting for review
 % so you remain anonymous.
+
 \def\plaintitle{Gait Prediction One Step Ahead \\ for Real Time Gait Guidance}
 \def\plainauthor{First Author, Second Author, Third Author,
   Fourth Author, Fifth Author, Sixth Author}
@@ -197,7 +198,7 @@
 %そのため歩行を実時間で誘導するためには，現在の歩行運動状態から２歩先行した歩行運動を実時間で予測し続ける必要がある．
 %そこで本研究では多層パーセプトロンを用いた実時間歩行運動予測を行い，
 %直進・右左折を含む5種の歩行運動に対し，１歩先行した歩行予測を実現したので報告する．
-Gait involving subconscious posture reflex can be guided using sensory illusion so that user is not aware of such illusion. In fact, many previous research using illusionary sensory feedback to the user realizes subconscious gait guidance. However, approximately two-steps latency as attitude reflection response after sudden sensory input may affect accurate gait guidance in real time. For example, it is too late to give sensory feedback to let user turn to the left when start to turn to the right. Thus, it explicitly requires prediction of gait movement two-steps ahead of the current gaiting in real time. This paper suggests that gait prediction method using multilayered perceptron as predictor for gait motion data sets including five kinds of gait motion such as straight ahead, right turn and left turn. Evaluation result shows that proposed method achieved gait prediction one step ahead as numerical experiment. 
+Gait involving subconscious postural reflex can be guided using sensory illusion so that the user is not aware of such illusion. In fact, many previous studies using illusionary sensory feedback to the user have realized subconscious gait guidance. However, an approximately two-step latency in attitude reflection response after a sudden sensory input may affect accurate gait guidance in real time. For example, it is too late to give sensory feedback to make the user turn left once he or she starts to turn right. Thus, predicted gait movement must be two steps ahead of the current gaiting in real time. This paper proposes a gait prediction method using a multilayered perceptron as a predictor for gait motion datasets, including five kinds of gait motion such as straight ahead, right turn, and left turn. The evaluation results show that the proposed method achieved gait prediction that was one step ahead in the numerical experiment.
 
 \end{abstract}
 
@@ -209,8 +210,38 @@ Gait involving subconscious posture reflex can be guided using sensory illusion 
 \keywords{\plainkeywords}
 
 \section{Introduction}
+% take sympathy in easy way
+You may bring a map in your phone not to lose your way till reaching your destination.
 
 %%
+social requirement and impact
+	ultimate goal of this research : if when you are going to lose your way till the.
+	as if you know all road.
+	support before trouble with anticipation
+	subconsciousness 
+	implicit vs explict
+	cyclic delay accurate challenge
+ 	a kind of brain machine interface -> difficulty of measureing brain activity under dynamic movement 
+	behavior is brain generated signal as well 
+	planning and movement going through under consciousness
+gait guidance
+	impicit gait gaidance : phyilosophy
+	illusion human interface citation x 15
+	implicit impact -> wearable x 10
+	knowledge less learning
+research question
+	gait prediction (original point)
+	machine learning / svm / deep learning 
+	categorical data vs continuous numerical data / classification vs regression
+	authentication vs 
+	sillouette vs physical movement
+	sagital plane
+	without understanding return just real data!
+	position / acceleration / velocity why? comparison!
+	why velocity?
+	marker number comparison
+	future implementation and advantage
+
 
 It is known that the walking motion of humans is about 2 steps in latency of attitude reflection response to sudden sensory input\cite{bib01}.
 %ヒトの歩行運動は，突発的な感覚入力への姿勢反射応答の潜時が約２歩であることが知られている\cite{bib01}．
