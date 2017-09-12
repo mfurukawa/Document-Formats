@@ -4,7 +4,7 @@
 % preprints).  Consult the conference website for the camera-ready
 % copyright statement.
 
-% Copyright
+% Copyright 
 \CopyrightYear{2016}
 %\setcopyright{acmcopyright}
 \setcopyright{acmlicensed}
@@ -76,7 +76,7 @@
 % Paper metadata (use plain text, for PDF inclusion and later
 % re-using, if desired).  Use \emtpyauthor when submitting for review
 % so you remain anonymous.
-\def\plaintitle{Prediction of Walking One Step Earlier \\ for Realtime Walking Guidance}
+\def\plaintitle{Gait Prediction One Step Ahead \\ for Real Time Gait Guidance}
 \def\plainauthor{First Author, Second Author, Third Author,
   Fourth Author, Fifth Author, Sixth Author}
 \def\emptyauthor{}
@@ -151,8 +151,6 @@
 }
 
 \maketitle
-
-\begin{abstract}
 %UPDATED---\today. This sample paper describes the formatting
 %requirements for SIGCHI conference proceedings, and offers
 %recommendations on writing for the worldwide SIGCHI
@@ -191,17 +189,15 @@
 %{\url{http://www.economics.utoronto.ca/osborne/latex/PMAKEUP.HTM}}.
 %%%
 
+
+\begin{abstract}
+
 %% abstract should be about 150 words (SIGCHI)
-It is known that the walking motion of humans is about 2 steps in latency of attitude reflection response to sudden sensory input.
 %ヒトの歩行運動は，突発的な感覚入力への姿勢反射応答の潜時が約２歩であることが知られている．
-So, in order to induce walking in real time, it is necessary to continue to predict walking exercise two steps ahead of the current locomotion state in real time.
 %そのため歩行を実時間で誘導するためには，現在の歩行運動状態から２歩先行した歩行運動を実時間で予測し続ける必要がある．
-Therefore, in this research we report real time walking motion prediction using multilayered perceptron and realized walking prediction one step ahead of five kinds of walking exercise including straight ahead, right turn and left turn.
 %そこで本研究では多層パーセプトロンを用いた実時間歩行運動予測を行い，
 %直進・右左折を含む5種の歩行運動に対し，１歩先行した歩行予測を実現したので報告する．
-
-%% write more %%
-
+Gait involving subconscious posture reflex can be guided using sensory illusion so that user is not aware of such illusion. In fact, many previous research using illusionary sensory feedback to the user realizes subconscious gait guidance. However, approximately two-steps latency as attitude reflection response after sudden sensory input may affect accurate gait guidance in real time. For example, it is too late to give sensory feedback to let user turn to the left when start to turn to the right. Thus, it explicitly requires prediction of gait movement two-steps ahead of the current gaiting in real time. This paper suggests that gait prediction method using multilayered perceptron as predictor for gait motion data sets including five kinds of gait motion such as straight ahead, right turn and left turn. Evaluation result shows that proposed method achieved gait prediction one step ahead as numerical experiment. 
 
 \end{abstract}
 
@@ -233,9 +229,8 @@ It is assumed that the object to be predicted in this study should be physical m
 %本研究では連続運動としての相関が現時刻・先行時刻間で低下したとしても，先行時刻における運動を推定するに足る情報量が現在時刻に内包されているのならば，推定精度が十分高いことが期待できる先行時間幅が存在すると仮定している．
 {\bf  *****add reason*****} Even if the correlation as continuous motion declines between the current time and the preceding time, if the information amount enough to estimate the motion at the preceding time is included in the current time, the estimation accuracy is sufficiently high It is assumed that there is a preceding time width that can be expected.
 
-
-\section{Modeling 歩行運動計測と歩行運動のモデル化}%%%%%%%%%%%%%%%%%%%%
-
+%  歩行運動計測と歩行運動のモデル化
+\section{Modeling}
 \subsection{Measurement of walking motion} %歩行運動の計測
 \label{subsec-nac}
 
