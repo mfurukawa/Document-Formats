@@ -211,49 +211,40 @@ Gait involving subconscious postural reflex can be guided using sensory illusion
 
 \section{Introduction}
 % take sympathy in easy way
-How do you visit a place you never been before by foot?
-You may bring a printed map in your bag, or bookmark it in your cell phone not to lose your way till reaching your destination.
-Or you may finally open Google Map to know direction at a station just after you get off a train.
-In any case, you will drop your gaze to the map many time not to lose your way.
-This is a typical guidance scenario for pedestrians.
+% Editaged Sept 16, 2017
+How do you visit a place you have never been before by foot? You may carry a printed map in your bag or bookmark the location in your cell phone so as to not lose your way before reaching your destination. Or you may finally open Google Maps to follow the directions from the station just after you get off a train. In any case, you will drop your gaze to the map several times so as to not lose your way. This is a typical guidance scenario for pedestrians.
 
-The point described before is that you need to pay attention to looking at the map. In terms of navigation, the direction to where you should go is given explicitly, in other words, consciously.
-This means that, as several study have pointed out {\bf **reference**}, the typical navigation sequence gives mental load to you. How can we get rid of the load? This question is the reason why these previous studies propose subconscious navigating using sensory illusion.
+The point described above is that you need to pay attention to the map. In terms of navigation, the direction towards which you should head is given explicitly or, in other words, consciously.This means that, as several studies have pointed out {\bf **reference**}, the typical navigation sequence places a mental load upon you. How can we get rid of this load? This question is the reason why these previous studies propose subconscious navigation using sensory illusion.
 
-Promoting the idea, here is an ultimate guidance scenario: even though you don't need to remember the route nor to look at any map in the way, you can come to the place where you never been before; in addition, you never notice when and how the guidance system supports you. You can arrive on foot without any conscious annotation as if you walk the usual route; though you don't know the actual route. It looks as if you know the entire route; however, any conscious nor verbal information is given to you. This is a kind of future scenario like magic.
+To promote the idea, here is an ultimate guidance scenario: even though you do not need to remember the route or refer to any map along the way, you can go to places you have never been before; in addition, you never notice when and how the guidance system supports you. You can arrive on foot without conscious awareness, as if you were walking your usual route, although you do not know the actual route. It seems as if you know the entire route; however, no conscious or verbal information is given to you. This is a kind of magical future scenario.
 
-How can human and computer interact with each other in this case? Needless to say, to direct and physical walking control is difficult to apply for daily use, since it often requires powerful actuator to move a heavy part of our body. On the other hand, in terms of gait has a control cycle including sensory input and movement output, we can say that sensory feedback can control gait movement described before. To give sensory illusion is relatively practical way to control the gait subconsciously; because our body has automatic response to the sensory input; as well as the way of sensory input does not need high-power physical actuation to our body. Such response is called "postural reflex," and occurs subconsciously. Therefore, alternative illusion sensory feedback is useful to induce user's behavior. In terms of pedestrian's directional guidance, illusion sensory input can induce postural sway to the one side; then the sway results gait route change. 
+How can humans and computers interact with each other in this case? Needless to say, it is difficult to physically direct and control walking in daily life since it often requires powerful actuators to move heavy parts of our bodies \cite{doi:10.3109/03093648709078194} \cite{DOMINGO2009464}. On the other hand, since gait has a control cycle including sensory input and movement output, we can say that sensory feedback can control gait movements, as described before. Providing sensory illusion \cite{Watanabe2010} \cite{Watanabe:2005:SII:1152399.1152406} is a relatively practical way to control gait subconsciously because our bodies have an automatic response to sensory inputs, which do not require high-power physical actuation. Such a response is called "postural reflex," which occurs subconsciously. Therefore, alternative illusion sensory feedback is useful to induce a user's behavior. In terms of pedestrians' directional guidance, illusion sensory input can induce postural sway to the one side, which results in walking route change. 
 
 
+Above all, although it sounds simple that sensory input economically induces gait guidance, we need to consider response latency from the time the sensory input is given to the time when body movement occurs. This aspect is critical for gait guidance in real time: for instance, it is too late to give sensory feedback telling the user to turn left once he or she has already begun turning right. In terms of system control, a large time delay in the closed loop usually makes control systems unstable, oscillated, or divergent. It is known that gait includes a two-step latency period with regard to sensory input. Therefore, gait guidance requires that sensory illusion be provided two-steps earlier than the current gait. This also requires the system to predict future gait two-step earlier in real time, in order to decide the amount of sensory feedback to be given to the user. This is an essential motivation to realize real-time gait prediction.
 
-%%
-social requirement and impact
-	ultimate goal of this research : if when you are going to lose your way till the.
-	as if you know all road.
-	support before trouble with anticipation
-	subconsciousness 
-	implicit vs explict
-	cyclic delay accurate challenge
- 	a kind of brain machine interface -> difficulty of measureing brain activity under dynamic movement 
-	behavior is brain generated signal as well 
-	planning and movement going through under consciousness
-gait guidance
-	impicit gait gaidance : phyilosophy
-	illusion human interface citation x 15
-	implicit impact -> wearable x 10
-	knowledge less learning
-research question
-	gait prediction (original point)
-	machine learning / svm / deep learning 
-	categorical data vs continuous numerical data / classification vs regression
-	authentication vs 
-	sillouette vs physical movement
-	sagital plane
-	without understanding return just real data!
-	position / acceleration / velocity why? comparison!
-	why velocity?
-	marker number comparison
-	future implementation and advantage
+
+What kind of cues obtained from the user can be used to anticipate future gait? This question equals to make a brain machine interface (BMI) to read what you will do or what you are thinking in your brain. However, BMIs require you to maintain a stable posture without making body movements, which brings electrical noises affecting very low voltage brain oriented signal. For example, the one measuring change of skin surface voltage is too sensitive on conductance change between the electrode and the skin; the one recording blood flow changes near the skull also weakens upon changing the probe posture and location on your skull. Obviously, such functional magnetic resonance imaging (f-MRI) is not suitable to observe brain activity while walking. In short, these typical BMI methods have highly strict constraints to be able to achieve stable brain activity measurements. Above all, typical BMI methods are unable to identify  where you are going to go.
+
+By changing our point of view, we can say that our body movement reflects our brain activity, including movement planning for the near future. Actually, several studies indicate that acceleration of your palm says what kind of gesture you will show next, e.g. paper, rock, and scissors. It is worth focusing on only knowing how your body moves implicitly; this kind of brain and body activity occurs subconsciously. Therefore, we can say that your body movement conveys not only what you are thinking but also what you will do in the near future. In other words, it seems possible to construct a kind of BMI through body movement. This feature does fit the process of observing gait. At this time, in terms of obtaining brain activity, body movement becomes not scary, but valuable. It may be possible to estimate future gait from current gait. If possible, the real-time gait guidance method would have the ability to know future gait several steps ahead, which could also advance illusion sensory feedback several steps ahead as well. Assuming that the current body movement involves cues of future gait, here is an open question of this paper: How do we extract future gait and how further ahead does the possibility of estimating it lie?
+
+Assuming that the current body movement involve the cue of the future gait, here is an open question of this paper: how to extract the future gait; how further ahead is could be possible to estimate it?
+
+%	illusion human interface citation x 15
+%	implicit impact -> wearable x 10
+%	knowledge less learning
+%research question
+%	gait prediction (original point)
+%	machine learning / svm / deep learning 
+%	categorical data vs continuous numerical data / classification vs regression
+%	authentication vs 
+%	sillouette vs physical movement
+%	sagital plane
+%	without understanding return just real data!
+%	position / acceleration / velocity why? comparison!
+%	why velocity?
+%	marker number comparison
+%	future implementation and advantage
 
 
 It is known that the walking motion of humans is about 2 steps in latency of attitude reflection response to sudden sensory input\cite{bib01}.
@@ -943,7 +934,7 @@ black.
 % REFERENCES FORMAT
 % References must be the same font size as other body text.
 \bibliographystyle{SIGCHI-Reference-Format}
-\bibliography{sample}
+\bibliography{CHI2018_furukawa}
 
 \end{document}
 
