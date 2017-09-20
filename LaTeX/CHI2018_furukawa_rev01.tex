@@ -1,0 +1,427 @@
+\documentclass{sigchi}
+
+% Use this section to set the ACM copyright statement (e.g. for
+% preprints).  Consult the conference website for the camera-ready
+% copyright statement.
+
+% Copyright   
+\CopyrightYear{2016}
+%\setcopyright{acmcopyright}
+\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+% DOI
+\doi{http://dx.doi.org/10.475/123_4}
+% ISBN
+\isbn{123-4567-24-567/08/06}
+%Conference
+\conferenceinfo{CHI'16,}{May 07--12, 2016, San Jose, CA, USA}
+%Price
+\acmPrice{\$15.00}
+
+% Use this command to override the default ACM copyright statement
+% (e.g. for preprints).  Consult the conference website for the
+% camera-ready copyright statement.
+
+%% HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP --
+%% Please note you need to make sure the copy for your specific
+%% license is used here!
+% \toappear{
+% Permission to make digital or hard copies of all or part of this work
+% for personal or classroom use is granted without fee provided that
+% copies are not made or distributed for profit or commercial advantage
+% and that copies bear this notice and the full citation on the first
+% page. Copyrights for components of this work owned by others than ACM
+% must be honored. Abstracting with credit is permitted. To copy
+% otherwise, or republish, to post on servers or to redistribute to
+% lists, requires prior specific permission and/or a fee. Request
+% permissions from \href{mailto:Permissions@acm.org}{Permissions@acm.org}. \\
+% \emph{CHI '16},  May 07--12, 2016, San Jose, CA, USA \\
+% ACM xxx-x-xxxx-xxxx-x/xx/xx\ldots \$15.00 \\
+% DOI: \url{http://dx.doi.org/xx.xxxx/xxxxxxx.xxxxxxx}
+% }
+
+% Arabic page numbers for submission.  Remove this line to eliminate
+% page numbers for the camera ready copy
+% \pagenumbering{arabic}
+
+% Load basic packages
+\usepackage{balance}       % to better equalize the last page
+\usepackage{graphics}      % for EPS, load graphicx instead 
+\usepackage[T1]{fontenc}   % for umlauts and other diaeresis
+\usepackage{txfonts}
+\usepackage{mathptmx}
+\usepackage[pdflang={en-US},pdftex]{hyperref}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{textcomp}
+
+% Some optional stuff you might like/need.
+\usepackage{microtype}        % Improved Tracking and Kerning
+% \usepackage[all]{hypcap}    % Fixes bug in hyperref caption linking
+\usepackage{ccicons}          % Cite your images correctly!
+% \usepackage[utf8]{inputenc} % for a UTF8 editor only
+
+% If you want to use todo notes, marginpars etc. during creation of
+% your draft document, you have to enable the "chi_draft" option for
+% the document class. To do this, change the very first line to:
+% "\documentclass[chi_draft]{sigchi}". You can then place todo notes
+% by using the "\todo{...}"  command. Make sure to disable the draft
+% option again before submitting your final document.
+\usepackage{todonotes}
+
+% Paper metadata (use plain text, for PDF inclusion and later
+% re-using, if desired).  Use \emtpyauthor when submitting for review
+% so you remain anonymous.
+
+\def\plaintitle{Gait Prediction One Step Ahead \\ for Real Time Gait Guidance}
+\def\plainauthor{First Author, Second Author, Third Author,
+  Fourth Author, Fifth Author, Sixth Author}
+\def\emptyauthor{}
+\def\plainkeywords{Authors' choice; of terms; separated; by
+  semicolons; include commas, within terms only; required.}
+\def\plaingeneralterms{Documentation, Standardization}
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{
+    \def\UrlFont{\sf}
+  }{
+    \def\UrlFont{\small\bf\ttfamily}
+  }}
+\makeatother
+\urlstyle{leo}
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages, to give it a
+% fighting chance of not being over-written, since its job is to
+% redefine many LaTeX commands.
+\definecolor{linkColor}{RGB}{6,125,233}
+\hypersetup{%
+  pdftitle={\plaintitle},
+% Use \plainauthor for final version.
+%  pdfauthor={\plainauthor},
+  pdfauthor={\emptyauthor},
+  pdfkeywords={\plainkeywords},
+  pdfdisplaydoctitle=true, % For Accessibility
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=linkColor,
+  breaklinks=true,
+  hypertexnames=false
+}
+
+% create a shortcut to typeset table headings
+% \newcommand\tabhead[1]{\small\textbf{#1}}
+
+% End of preamble. Here it comes the document.
+\begin{document}
+
+\title{\plaintitle}
+
+\numberofauthors{3}
+\author{%
+  \alignauthor{Leave Authors Anonymous\\
+    \affaddr{for Submission}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+  \alignauthor{Leave Authors Anonymous\\
+    \affaddr{for Submission}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+  \alignauthor{Leave Authors Anonymous\\
+    \affaddr{for Submission}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+}
+
+\maketitle
+
+\begin{abstract}
+
+Gait involving subconscious postural reflex can be guided using sensory illusion so that the user is not aware of such illusion. In fact, many previous studies using illusionary sensory feedback to the user have realized subconscious gait guidance. However, an approximately two-step latency in attitude reflection response after a sudden sensory input may affect accurate gait guidance in real time\cite{1492799}. For example, it is too late to give sensory feedback to make the user turn left once he or she starts to turn right. Thus, predicted gait movement must be two steps ahead of the current gaiting in real time. This paper proposes a gait prediction method using a multilayered perceptron as a predictor for gait motion datasets, including five kinds of gait motion such as straight ahead, right turn, and left turn. The evaluation results show that the proposed method achieved gait prediction that was one step ahead in the numerical experiment.
+
+\end{abstract}
+
+\category{H.5.m.}{Information Interfaces and Presentation
+  (e.g. HCI)}{Miscellaneous} \category{See
+  \url{http://acm.org/about/class/1998/} for the full list of ACM
+  classifiers. This section is required.}{}{}
+
+\keywords{\plainkeywords}
+
+\section{Introduction}
+% take sympathy in easy way
+% Editaged Sept 16, 2017
+How do you visit a place you have never been before by foot? You may carry a printed map in your bag or bookmark the location in your cell phone\cite{maruyama2002portable} so as to not lose your way before reaching your destination. Or you may finally open Google Maps to follow the directions from the station just after you get off a train. In any case, you will drop your gaze to the map several times so as to not lose your way. This is a typical guidance scenario for pedestrians.
+
+The point described above is that you need to pay attention to the map. In terms of navigation, the direction towards which you should head is given explicitly or, in other words, consciously.
+This means that, as several studies have pointed out~\cite{Ghaem1997,PSYP:PSYP1043,1276842},
+%% needs to be revised
+ the typical navigation sequence places a mental load upon you. How can we get rid of this load? This question is the reason why these previous studies propose subconscious navigation using sensory illusion\cite{Tanikawa2012,%VectionHMD
+TJP:TJP931,TJP:TJP1033,7460029,7989977,BENT2000157,Britton1993}.% GVS Patent / ,campbell2000headset,campbell1998multimodal
+
+To promote the idea, here is an ultimate guidance scenario: even though you do not need to remember the route or refer to any map along the way, you can go to places you have never been before; in addition, you never notice when and how the guidance system supports you. You can arrive on foot without conscious awareness, as if you were walking your usual route, although you do not know the actual route. It seems as if you know the entire route; however, no conscious or verbal information is given to you. This is a kind of magical future scenario.
+
+How can humans and computers interact with each other in this case? Needless to say, it is difficult to physically direct and control walking in daily life since it often requires powerful actuators to move heavy parts of our bodies~\cite{doi:10.3109/03093648709078194,DOMINGO2009464}. On the other hand, since gait has a control cycle including sensory input and movement output, we can say that sensory feedback can control gait movements, as described before. Providing sensory illusion is a relatively practical way to control gait subconsciously because our bodies have an automatic response to sensory inputs, which do not require high-power physical actuation~\cite{Watanabe2010,Watanabe:2005:SII:1152399.1152406,Jones2008,Imamura:2011:HHW:2048259.2048265, Turchet2015, 7460029}. Such a response is called "postural reflex," which occurs subconsciously. Therefore, alternative illusion sensory feedback is useful to induce a user's behavior. In terms of pedestrians' directional guidance, illusion sensory input\cite{JPR:JPR167,pmid7845766,pmid25774143,Furukawa:2011:VFP:1959826.1959845} can induce postural sway to the one side, which results in walking route change. 
+
+
+Above all, although it sounds simple that sensory input economically induces gait guidance, we need to consider response latency from the time the sensory input is given to the time when body movement occurs. This aspect is critical for gait guidance in real time: for instance, it is too late to give sensory feedback telling the user to turn left once he or she has already begun turning right. In terms of system control, a large time delay in the closed loop usually makes control systems unstable, oscillated, or divergent. It is known that gait includes a two-step latency period with regard to sensory input. Therefore, gait guidance requires that sensory illusion be provided two-steps earlier than the current gait. This also requires the system to predict future gait two-step earlier in real time, in order to decide the amount of sensory feedback to be given to the user. This is an essential motivation to realize real-time gait prediction.
+
+
+
+What kind of cues obtained from the user can be used to anticipate future gait? This question equals to make a brain machine interface (BMI) to read what you will do or what you are thinking in your brain. However, BMIs require you to maintain a stable posture without making body movements, which brings electrical noises affecting very low voltage brain oriented signal\cite{PFURTSCHELLER2006145,OLNEY19859}. For example, the one measuring change of skin surface voltage is too sensitive on conductance change between the electrode and the skin; the one recording blood flow changes near the skull also weakens upon changing the probe posture and location on your skull. Obviously, such functional magnetic resonance imaging (fMRI) is not suitable to observe brain activity while walking. In short, these typical BMI methods have highly strict constraints to be able to achieve stable brain activity measurements. Above all, typical BMI methods are unable to identify  where you are going to go.
+
+By changing our point of view, we can say that our body movement reflects\cite{VANEMMERIK19961175} our brain activity, including movement planning for the near future\cite{MORRIS1973729,ZIJLSTRA1997249}.%NEED CHECK
+ Actually, several studies indicate that acceleration of your palm says what kind of gesture you will show next, e.g. paper, rock, and scissors. It is worth focusing on only knowing how your body moves implicitly; this kind of brain and body activity occurs subconsciously. Therefore, we can say that your body movement conveys not only what you are thinking but also what you will do in the near future. In other words, it seems possible to construct a kind of BMI through body movement. 
+ 
+ This feature does fit the process of observing gait. At this time, in terms of obtaining brain activity, body movement becomes not scary, but valuable. It may be possible to estimate future gait from current gait. If possible, the real-time gait guidance method would have the ability to know future gait several steps ahead, which could also advance illusion sensory feedback several steps ahead as well. 
+Assuming that the current body movement involves cues of future gait, here is an open question of this paper: How do we extract future gait and how further ahead does the possibility of estimating it lie?
+
+Assuming that the current body movement involve the cue of the future gait, here is an open question of this paper: how to extract the future gait; how further ahead is could be possible to estimate it? This kind of problem can be considered as the regression problem. And currently, neural network\cite{LIU1999391} is very feasible to solve regression problem without any predefined model.
+
+
+\section{Gaiting Model}
+
+\subsection{Goal of Gait Prediction}
+The purpose of this study is to show the predictability of walking, we do not target any arbitrary walking movement. As a first step, we focus on walking movement explicitly designed route in advance. Therefore, we set the problem of this research as "how much can we predict the walking motion $\Delta t$ seconds earlier from the walking motion at the current time?" The main objective of this research is walking guidance to achieve route guidance, we believe that it is sufficient to obtain the movement locus of the head, "walking motion" as the prediction target.
+
+\subsection{Hypothesis}
+It is assumed that the object to be predicted in this study should be physical movement with physical quantity, not a nominal scale such as a right turn, a left turn. This is due to the fact that it is necessary to treat body motion to be controlled as a physical quantity in order to realize walking prediction and guidance in real time. 
+
+\subsection{Instruments and Post Process}
+
+\begin{figure}
+\centering
+  \includegraphics[width=40mm]{fig/marker.eps}
+  \caption{Marker arrangement (Helen Hayers)}~ \label{fig:marker}
+\end{figure}
+
+\begin{figure*}
+\centering
+  \includegraphics[width=160mm]{fig/TRAINING-DATA.eps}
+  \caption{Parietal marker (appeared in Figure~\ref{fig:marker} black arrow) locus of learning data group}~ 
+    \label{fig:training-data}
+\end{figure*}
+
+Helen Hayers arrangement shown in Figure~\ref{fig:marker} was used as a marker arrangement for measuring walking motion. We shot at 300 fps with 8 Kestrel (2.2 million pixels) made by nac company. Interpolation processing of missing data and low pass filter processing at cutoff frequency of 6 Hz were performed on 25 positions $\{p_x, p_y, p_z \}$ measured using MAC3D System Cortex. Furthermore, the velocity vector $ \{v_x, v_y, v_z \} $ of the 25 point marker by the backward difference method is derived.
+
+
+\subsection{Gaiting Trajectory and Condition}
+
+In order to quantitatively evaluate the prediction performance, five conditions of "straight ahead, turn 90 degrees to the right, turn 90 degrees to the left, turn 45 degrees to the right and turn 45 degrees to the left" were set as the route condition. The walking distance is 6 [m] per trial, and the breakdown has 3 [m] as a right / left turn or a straight traveling section after going through a straight section of 3 [m] from the start point. A mark was put on the floor  in order to clearly show the walking path of 5 conditions. One male participant waked with normal walking speed and stride.
+
+The head trajectory used as the training data set from the measurement data is shown in Figure~\ref{fig:training-data}. This figure is the trajectory of the top of the head shown as a black arrow in Figure~\ref{fig:marker}, and 5 conditions include walking data for each two times. According to the route 5 condition, it can be seen that the vehicle is turning right or left near the origin in the horizontal plane. The pulsation in the vertical plane represents the vertical movement of the head. As shown before, the data of one trial is time series data recorded at a total of 75 points of the velocity vector (three dimensions) of markers of all 25 points per time at 300 [fps] is there.
+
+
+
+\section{Predictor design}
+
+\subsection{Does current body movement leak future planned gait?}
+
+Here is a hypothesis stands on that the set of pedestrians' current body movement leaks already-planned body movement appeared after two steps. Thus, the DBN only requires the set of body movement at a time. In short, the thinking is that the cue exists in terms of body-spatial domain rather than time domain. 
+
+Define the speed of the marker $m$ at the current time $t$ as $\check{v}_{m, t}$. The set of all markers is $X(t)\in\mathbb{R}^{1 \times 75} $. The set of only parietal markers is $ Y(t)\in\mathbb {R}^{1\times 3}$. Also, the width from the current time to the preceding time of the prediction target is expressed as "advance time width $\Delta t$". Here, the problem of this research is formulated as follows. That is, if $\Delta t = 0$ [s], you can solve the problem of "prediction of current head motion from current walking motion". This is equivalent to model identification to estimate the mapping $ f_ {\Delta t = 0}: X (t) \rightarrow Y (t) $. Likewise, if $ \Delta t = 0.5 $ [s], this results in the identification problem of then a mapping $ f_ {\Delta t = 0.5}: X (t) \rightarrow Y (t + \Delta t) $.
+
+In this paper, we consider the time 1.1 [s] of two steps obtained from the measured data as the reference walking cycle, and as $ \Delta t = \{0.0, \ 0.5, \ 1.1 \} $ [s] as the same condition Conditions were set. This corresponds to the prediction of $ \{0, 1, 2\} $ step by step number representation. The prediction accuracy is estimated to be the highest for $ \Delta t = 0 $, and $ \Delta t = 1.1 $ is the lowest. However, even if the estimation accuracy is low, for example, the main purpose of this paper is to clarify the possibility of motion prediction that is sufficient for right / left turn judgment.
+
+For the predictor, we used the Deep belief network shown in Figure~\ref{fig:dbn}. The number of cells is 75, 100, 3 for the input layer, the hidden layer, and the output layer respectively. We give the input layer the velocity vector ($ X (t) \in \mathbb {R}^{1 \times 75} $) of the marker for 25 points at the current time $ t $ and add the preceding time width $ \Delta t $ Infer the velocity vector ($ Y (t + \Delta t) \in \mathbb {R} ^{1 \times 3} $) of the top of the head marker. The activation function is a sigmoid function (sigm), and the output function is an identity mapping function (linear).
+
+\begin{figure}
+\centering
+\hspace{10mm}\includegraphics[width=60mm]{fig/DBN_3layers.eps}\vspace{3mm}
+  \caption{Deep belief network as predictor focusing on the spatial featured velocity vector at a time}~\label{fig:dbn}
+\end{figure}
+
+
+\subsection{Does sequential gait exceed prediction one step ahead?}
+
+Based on physical principle, we can obviously say that the past time series body movement results the whole body velocity data set at the time. Therefore, the additional time domain data itself can be more accurate cue to estimate the future gait. A velocity vector is obtained from the whole body markers as described before (the set of all markers is $X(t)\in\mathbb{R}^{1 \times 75} $.) The time domain data sets consists of a lot of the velocity vectors placed in time order. We named it \textit{ "time shift"} data structure. 
+
+To learn the time domain data, the input and output layer of Figure~\ref{fig:dbn} is extended as shown in Figure~\ref{fig:dbn_timeshift}. The whole body velocity vector $X(t)\in\mathbb{R}^{1 \times 75} $ is in a box at the left side in Figure~\ref{fig:dbn_timeshift}, and the same vector $\delta t$ earlier is described as $v_{1,t-\delta t} \ v_{2,t-\delta t} \ \dots \ v_{i, t-\delta t}$. The $N$ in $ N \delta t $ defines the length of time series towards the past; the $\delta t$ is a time equals to an inverse number of frame rate (frame per second). Output layer shown in the right side in Figure~\ref{fig:dbn_timeshift} has the same structure as the input layer except the number of the markers. The number of cell as hidden layer is same as 100. The activation function is a sigmoid function (sigm), and the output function is an identity mapping function (linear). Therefore, the number of cells of the input and the output  layer equals to $ X (t) \in \mathbb {R}^{1 \times (N+1)75} $ and $ Y (t + \Delta t) \in \mathbb {R} ^{1 \times (N+1)3}$ respectively. 
+
+
+\begin{figure}
+\centering
+  \includegraphics[width=80mm]{fig/DBN_3layers_timeshift.eps}
+  \caption{Extended deep belief network for \textit{time shift} data structure}~\label{fig:dbn_timeshift}
+\end{figure}
+
+\section{Preprocess and Learning}
+
+\subsection{Normalization}
+
+First, create a training data group according to the mapping rule defined in the previous section, and create $ X (t) \in \mathbb {R} ^ {1 \times 75}, Y (t + \Delta t) \in \mathbb {R} ^ {1 \times 3} $ respectively. These sets have actual measured values of speed $ \check {v}_{m, t} $. Here, $ m $ is a sequence number given without distinction to the marker or Cartesian coordinate system $ \{x, y, z \} $, and $ 1 \leq m_X \leq 75$ and $ 1 \leq m_Y \leq 3 $ for each $ X $ and $ Y $. Normalization is to convert the average of the set of series $ m $ in all time zones $ (1 \leq t \leq N) $ to zero and to convert standard deviation to 1.
+
+%具体的には，系列$m$内平均$\overline{\check{v}_{m}} $を式(\ref{eq:average})で求める．ただし$C$は全条件数であり，$n_c$は各条件$c$が含む時間ステップ数である．
+For instance, find the average $ \overline {\check {v}_{m}} $ of the series $ m $ within the formula (\ref{eq:average}). Where $ C $ is the total number of conditions and $ n_c $ is the number of time steps included in each condition $ c $.
+
+% m : marker index number
+% Tn = all seconds
+% average 
+\begin{equation}
+\overline{\check{v}_{m}} = \frac{1}{N}\sum^{N}_{t=1}\check{v}_{m,t} 
+ \hspace{3mm} where  \hspace{3mm}
+N=\sum^{C}_{c=1} n_c 
+\label{eq:average}
+\end{equation}
+
+Next, find the standard deviation $ \check {s}_m $ in the sequence $ m $ by the expression (\ref{eq:standardDeviation}).
+
+% standard deviation
+\begin{equation}
+  \check{s}_m = \sqrt{ \frac{1}{N-1}\sum^{N}_{t=1} ( \check{v}_{m,t} - \overline{\check{v}_m} ) ^2} 			
+\label{eq:standardDeviation}
+\end{equation}
+
+Finally, the sequence $ m $ gets $ v_{m, t} $ normalized by the equation (\ref{eq:regularization}).
+After learning and testing, inverse regularization was conducted with the following equation(\ref{eq:regularization}) 
+
+% regularization
+\begin{equation}
+  v_{m,t} = \frac{\check{v}_{m,t} - \overline{\check{v}_{m}}}{\check{s}_m} 
+  \label{eq:regularization}
+\end{equation}
+
+
+\subsection{Data samples}
+Speed input marker of current time 25 points $ X (t) \in \mathbb {R} ^ {1 \times 75} $ head bit velocity for $ \in \mathbb {R}^{ 1 \times 3} $ were normalized and learned as teacher data as described above. The teacher data length is 12976, 11476, 9676 for the preceding time width $ \Delta t = \{0.0, \ 0.5, \ 1.1 \} $ [s] respectively. The batch size was set to 12976, 11476, 9676 for each preceding time width, and learning was done with 2000 learning times. Various parameters at learning are shown in footnote \footnote{Learning rate 4, momentum 0.5, dropout Fraction 0.5, input ZeroMaskedFraction 0.2, weightMaxL 2 norm 15}. From the above procedure, we have obtained three predictors $ f_{\Delta t = \{0.0, 0.5, 1.1 \}} $ for each preceding time width of 3 conditions.
+
+A data group different from the teacher data group was used as the evaluation data group. However, the evaluation data group was also measured on the same day as the teacher data group from the same subject.
+
+
+
+\section{Prediction Result}%%%%%%%%%%%%%%%%%%%%
+
+\subsection {Achieved Gait Prediction One Step Ahead}
+
+The predictor \textit{without} time shift data structure (shown in Figure~\ref{fig:dbn}) provides a result shown in Figure~\ref{fig:velocity-result}. The horizontal axis shows the time, and the vertical axis shows the translational velocity of the head top marker. At initial position, the participant had started walking parallel to the Y-axis, and perpendicular to the X-axis. Z-axis is perpendicular to the ground. Then, the plot in Figure~\ref{fig:dbn} describes the top head marker's velocity on X-axis. 
+
+\begin{figure*} 
+\centering
+  \includegraphics[width=180mm]{fig/velocity.eps}\hspace{-15mm} 
+  \caption{$ x $ speed prediction result in the axial direction ($ \Delta t $ represents the preceding time width)}~\label{fig:velocity-result}
+\end{figure*}
+
+The top head velocity basically oscillates as shown in the area of \textit{"test straight 1"} in the Figure~\ref{fig:dbn}(a). Once the participant turns right, the plot goes down on Y-axis as shown in the area of \textit{"test right 90 1"}. In contrast, it goes up on Y-axis when the participant turns left as shown in the area of \textit{"test left 90 1"}. The time series estimation result is shown in which the horizontal axis is time and the vertical axis is the velocity component of the top of the pedestrian at the initial position of the pedestrian. Since this figure is the speed expressed in the world coordinate system, when taking a large negative value like $ t = 7 $ [s] in $ \Delta t = 0.0 $ [s], the pedestrian It means that you made a right turn.
+
+
+
+Both plots of the Figure~\ref{fig:velocity-result} relate to the data group for evaluation, and the blue dashed line Ground Truth (expected result) is $ Y (t + \Delta t) $, the thick orange Predicted (Predicted result) is $ f_ {\Delta t} (X (t)) $, and the thin orange Current Velocity (the speed at the current time given to the input layer) is $ X (t) $ ing. The prediction result $ f_ {\Delta t} (X (t)) $ asymptotically approaches the expected result $ Y (t + \Delta t) $ if the predictor identification is sufficiently successful.
+
+First, observe the preceding time width $ \Delta t = 0.0 $ [s] in the Figure~\ref{fig:velocity-result}(a). Because of $ \Delta t = 0.0 $ to $ X (t) = Y (t) $ from the definition of the preceding time width, the plot Ground Truth is consistent with the Current Velocity. If the predicted result $ f_ {0.0} (X (t)) $ is asymptotic to $ X (t) $, it can be control data indicating that predictor acquisition has not failed. $ F_ {0.0} (X (t)) $ (plot Predicted) is consistent with $ Y (t) $ (plot Ground Truth) from the upper part of the Figure~\ref{fig:velocity-result} It can be said that it is a expected result.
+
+Next, observe the preceding time width $ \Delta t = 0.5 $ [s] in the Figure~\ref{fig:velocity-result}(b). Since $ X (t) $ in the figure has a phase difference of about $ \pi $ with $ Y (t + 0.5) $, it can be confirmed that it is an evaluation data group for one-step ahead motion prediction . Similarly, when you compare $ f_ {0.5} (X (t)) $ and $ Y (t + 0.5) $, you turn right / left at the middle of the Figure~\ref{fig:velocity-result} near the time indicated by the black arrow It turns out that the meaningful speed change is predicted along the Ground Truth. This means that $ f_ {0.5} (X (t)) $ (plot Predicted) in the figure shows asymptotic fluctuation to $ Y (t + 0.5) $ contrary to the speed of $ X (t) $ , It can be said that it shows the possibility of predicting head top speed one step ahead.
+
+Finally, observe the preceding time width $ \Delta t = 1.1 $ [s] in the Figure~\ref{fig:velocity-result}(c). Likewise, since $ X (t) $ has a phase difference of about $ 2 \pi $ with $ Y (t + 1.1) $, it can be confirmed that it is a data group for evaluation two steps ahead. Furthermore, when comparing $ f_ {1.1} (X (t)) $ and $ Y (t + 1.1) $, it is predicted that the data of $ f_ {1.1} (X (t)) $ represents a right / It was found that it was expected to be greatly delayed from the time it should be. In other words, we could not confirm the possibility of predicting parietal region velocity two steps ahead in the data set group used this time.
+
+
+\subsection{Amount of Gait Feature v.s. Prediction Accuracy}
+It would be better that the predictor requires fewer markers in terms of the human computer interaction system. As in the previous subsection, the result shown in Figure~\ref{fig:velocity-result}(b) is obtained with all 25 markers (a.k.a. 75 degrees of freedom) in terms of input layer. In other words, the result has the largest cost to estimate accurate future gait. Thus, it is important to reveal a relation between the number of markers and accuracy. 
+
+The result of the prediction with limited number of markers is shown in Figure~\ref{fig:Velocity_marker_diff}. 
+Figure~\ref{fig:Velocity_marker_diff}(a) uses only a head-top marker ($X(t)\in\mathbb{R}^{1 \times 3} $).
+Figure~\ref{fig:Velocity_marker_diff}(b) uses three markers on the head ($X(t)\in\mathbb{R}^{1 \times 9}) $. The marker are located on the top, front, and back of the participant's head. In addition, Figure~\ref{fig:Velocity_marker_diff}(c) is a result with three head markers, and right and left wrist markers ($X(t)\in\mathbb{R}^{1 \times 15} $). At last, Figure~\ref{fig:Velocity_marker_diff}(d) shows the result using additional right and left shoulder and toe markers to the previous (c), then ($X(t)\in\mathbb{R}^{1 \times 27} $).
+ 
+\begin{figure*}
+\centering
+  \includegraphics[width=180mm]{fig/Velocity_marker_diff.eps} \hspace{-15mm} 
+  \caption{Prediction result with limited number of markers  ($ \Delta t $ = 0.5)}
+  ~\label{fig:Velocity_marker_diff}
+\end{figure*}
+
+The thick orange plot shows the prediction result. Focusing on the \textit{"test right 90 1"} area, it is obvious that the larger number of the markers gives closer to the ground truth in blue dashed line. It seems impossible to predict future gait using one marker on the head top, because the predicted plot just reflects the current velocity in yellow as shown in Figure~\ref{fig:Velocity_marker_diff}(a). However, the predicted plot tends to closer using the larger number of the markers. On other area such as  \textit{"test right 45 1"},   \textit{"test left 90 1"}, and  \textit{"test left  45 1"}, the same relation are observed.
+
+
+\subsection{Gait Trajectory Estimation and Evaluation}
+
+Since the estimation result of the parietal velocity at time $ t $ is normalized as described above, the series $ m $(\ref {eq:average}) and expression (\ref {eq:standardDeviation}) We perform inverse transformation using inner average $ \overline {\check {v} _ {m}} $ and standard deviation $ \check {s} _ m $ and derive the velocity vector in the real world coordinate system. Therefore, time integration based on the initial coordinates was performed by the equation (\ref {eq:integration}), and the head top trajectory was obtained. However, $ \delta t = 1/300 $ [fps].
+
+\begin{equation}
+\vec{p}(t) = \sum^{t}_{t=1}(\check{s}_m  v_{m,t} +  \overline{\check{v}_{m}})  \delta t+ \vec{p}_0(t_0)
+\label{eq:integration}
+\end{equation}
+
+\begin{figure*}
+\centering
+  \includegraphics[width=180mm]{fig/trail_all.eps}
+  \caption{Gait trajectory estimated with the predicted velocity of participant's top head. Figure (a)-(c) are obtained with Deep Brief Net (DBN) model shown in Figure~\ref{fig:dbn}. Figure (d) and (e) are obtained with \textit{time shift} data structure as well as extended DBN model shown in Figure~\ref{fig:dbn_timeshift}.}
+  ~\label{fig:trail_all}
+\end{figure*}
+
+
+
+
+Figure~\ref{fig:trail_all} (a), (b), and (c) are estimated pedestrian's head trajectory for each time period $ \Delta t = \{0.0, \ 0.5, \ 1.1 \} $ [s] respectively. The plot of the predicted time series velocity (plot Predicted) of Figure~\ref{fig:velocity-result} as the top of the head using the formula (\ref {eq:integration}). The thin solid line is the expected result of $ Y (t + \Delta t) $, and the bold solid line shows the prediction result of $ f_ {\Delta t} (X (t)) $. Since the pedestrian started walking from the left side to the right side of the figure and five branches near the origin, it is possible to observe the state of walking according to each of the five walking conditions.
+
+From Figure~\ref{fig:trail_all}, it is observed that the predicted trajectory deviates from the expected head trajectory as the advance time width increases. $ \Delta t = 0.0 $ [s] The figure \ref{fig:trail_all} which is the condition is the expected result and the predicted trajectory are in agreement and is the condition of $ \Delta t = 0.5 $ [s]. A position error of about 500 [mm] at the maximum was observed in Figure~\ref{fig:trail_all}(b). In addition, the Figure \ref{fig:trail_all}(c), which is the condition of $ \Delta t = 1.1 $ [s], shows that a position error of about 1000 [mm] corresponding to roughly two steps, It was done. This is due to the fact that the time of the predicted speed fluctuation was not observed at the expected time as described in the previous section.
+
+
+\subsection{Time shift gait exceeds prediction one step ahead}
+
+\textit{Time shift} data structure is evaluated using the extended deep brief net (Figure~\ref{fig:dbn_timeshift}). Figure~\ref{fig:timeshift} shows a prediction result with the \textit{time shift} data structure. Figure~\ref{fig:timeshift} (a) and (b) are under the preceding time width of $ \Delta t = 0.5$ and $1.1$ [s] respectively. 
+
+First, Figure~\ref{fig:timeshift}(a) indicates that prediction time delay decreased compared with Figure~\ref{fig:velocity-result}(b), see each black arrows. Thus, \textit{time shift} data structure improves prediction accuracy in terms of time delay. Additionally, Figure~\ref{fig:trail_all}(d) reveals that the \textit{time shift} one also improves prediction result in terms of spatial accuracy compared with Figure~\ref{fig:trail_all}(b)
+
+Second, Figure~\ref{fig:timeshift}(b) shows that the delay, when the participant turns right or left, shrinks even though under the severe condition under $\Delta t = 1.1$ [s] compared with Figure~\ref{fig:velocity-result}(c), see each black arrows. Therefore, \textit{time shift} data structure also dramatically improves prediction accuracy in terms of time delay. As same as before, Figure~\ref{fig:trail_all}(e) reveals that the \textit{time shift} one also improves prediction result in terms of spatial accuracy compared with Figure~\ref{fig:trail_all}(c).  
+
+
+\section{Discussion}
+First, selection of physical quantities to be handled will be described. Speed is used as a physical quantity expressing walking motion. This is because the walking motion is a continuous periodic motion. That is, the hypothesis that the velocity of each part of the body observed at the time $ t $ is observed again after the period $ T $. Furthermore, since this hypothesis is established regardless of the walking position, the physical feature quantity of speed gives characteristics suitable for prediction of real time walking motion for pedestrians moving at arbitrary positions in the space.
+
+The expected prediction accuracy is considered to decrease as the advance time width increases. Considering the correlation as the motion feature quantity of walking, it is a continuous cycle motion. The amount of information sufficient to estimate the motion at the preceding time gets worser, even if the correlation as the continuous motion decreases between the current time and the preceding time. If it is included in the time, it is assumed that there is a preceding time width that can be expected that the estimation accuracy is sufficiently high. 
+
+
+
+\section{Conclusion}
+It is known that the walking motion of humans is about 2 steps in latency of attitude reflection response to sudden sensory input. Therefore, in order to induce walking in real time, it is necessary to continue to predict walking exercise two steps ahead of the current locomotion state in real time. Therefore, in this study, real time walking motion prediction using multilayered perceptron was performed, and walking prediction a step ahead of five walking exercises including straight ahead, right turn and left turn was realized.
+
+Currently, the number of subjects is limited to one person and the number of teacher data is small as a future task. This report is mainly based on corrective evaluation, and quantitative evaluation is required. Furthermore, it is necessary to evaluate the validity of the input / output layer design.
+
+\begin{figure*}
+\centering
+  \includegraphics[width=160mm]{fig/timeshift.eps}
+  \caption{Prediction result in the axial direction with \textit{time shift} data structure. as well as extended DBN model shown in Figure~\ref{fig:dbn_timeshift}. ($ \Delta t $ represents the preceding time width)}
+  ~\label{fig:timeshift}
+\end{figure*}
+
+
+
+\section{Acknowledgments}
+Sample text: We thank all the volunteers, and all publications support
+and staff, who wrote and provided helpful comments on previous
+versions of this document. Authors 1, 2, and 3 gratefully acknowledge
+the grant from NSF (\#1234--2012--ABC). \textit{This whole paragraph is
+  just an example.}
+
+
+% BALANCE COLUMNS
+\balance{}
+
+% REFERENCES FORMAT
+% References must be the same font size as other body text.
+\bibliographystyle{SIGCHI-Reference-Format}
+\bibliography{CHI2018_furukawa}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
